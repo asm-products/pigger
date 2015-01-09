@@ -1,0 +1,191 @@
+<head>
+    <title>Pigger</title>
+</head>
+
+<body>
+<div class="ui masterhead">
+    <div class="ui page grid">
+        <div class="column">
+          {{#if currentUser}}
+              <div class="ui inverted gray menu">
+                  <div class="item">{{> loginButtons}}</div>
+              </div>
+          {{else}}
+              <div class="ui inverted green menu">
+                  <div class="item">{{> loginButtons}}</div>
+                  <a class="item" href="#">Overview</a>
+                  <a class="item" href="#">Sign up</a>
+                  <a class="item" href="#">About</a>
+              </div>
+          {{/if}}
+        </div>
+    </div>
+</div>
+
+{{#if currentUser}}
+    <div class="ui page grid">
+        <div class="six wide column">
+            <div class="ui styled accordion">
+                <div class="active title"><i class="dropdown icon"></i>Add Money</div>
+                <div class="active content">
+
+                    <div class="ui form">
+
+                        <form class="new-row">
+
+                            <div class="two fields">
+                                <div class="ui input field">
+                                    <input type="text" name="amount" placeholder="$"/>
+                                </div>
+
+                                <div class="ui input field">
+                                    <input type="text" name="text" placeholder="Source"/>
+                                </div>
+                            </div>
+
+                            <div class="one field">
+                                <input type="submit" class="positive ui button field" value="Add!"/>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="title"><i class="dropdown icon"></i>Add or remove from categories</div>
+                <div class="content">
+                  <div class="ui form">
+                      <form class="edit-row">
+                          <div class="three fields">
+                              <div class="field">
+                                  <label>Action</label>
+                                  <div class="ui fluid selection dropdown">
+                                      <input type="hidden" name="action"/>
+                                      <div class="default text">+ or -</div>
+                                      <i class="dropdown icon"></i>
+                                      <div class="menu">
+                                          <div class="item" data-value="+">Add</div>
+                                          <div class="item" data-value="-">Subtract</div>
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="field">
+                                  <label>Amount</label>
+                                  <input type="text" name="editAmount" placeholder="Ex: 4"/>
+                              </div>
+                              <div class="field">
+                                  <label>Category</label>
+                                  <div class="ui fluid selection dropdown">
+                                      <input type="hidden" name="cat"/>
+                                      <div class="default text">Category</div>
+                                      <i class="dropdown icon"></i>
+                                      <div class="menu">
+                                          {{#each cats}}
+                                              <div class="item" data-value="{{cat}}">{{cat}}</div>
+                                          {{/each}}
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="two fields">
+                              <div class="field">
+                                  <input type="text" name="reason" placeholder="Why?"/>
+                              </div>
+                              <div class="field">
+                                  <input type="submit" name="editSubmit" value="Edit" class="ui primary button"/>
+                              </div>
+                          </div>
+                      </form>
+                  </div>
+                </div>
+
+                <div class="title"><i class="dropdown icon"></i>Settings</div>
+                <div class="content">
+                    <h4 class="ui dividing header">Categories</h4>
+                    <table class="ui celled collapsing striped table">
+                        <thead>
+                        <th>Category</th>
+                        <th>Percentage</th>
+                        <th>Remove</th>
+                        </thead>
+                        <tbody>
+                        {{#each cats}}
+                          {{> editCat}}
+                        {{/each}}
+                        </tbody>
+                    </table>
+
+                    <div class="ui form">
+                        <form class="new-cat">
+                            <h4 class="ui dividing header">Add a category</h4>
+                            <div class="two fields">
+                                <div class="field">
+                                    <input type="text" name="cat" placeholder="Ex. Donate"/>
+                                    <div class="ui pointing label">This will be the title of your new category</div>
+                                </div>
+
+                                <div class="field">
+                                    <input type="text" name="per" placeholder="Ex. 0.4"/>
+                                    <div class="ui pointing label">When you add money to your account, it will be multiplied by this percentage to determine how much to add to your category.</div>
+                                </div>
+                            </div>
+
+                            <div class="one field">
+                                <input type="submit" class="ui positive button field" value="Add category"/>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="ten wide column">
+            <table class="ui celled striped table">
+                <thead>
+                <tr>
+                  {{#each cats}}
+                    {{> cat}}
+                  {{/each}}
+                    <th>Description</th>
+                    <th>Remove</th>
+                </tr>
+                </thead>
+                <form class="edit-row" id="edit-row"></form>
+              {{> rows}}
+            </table>
+        </div>
+
+    </div>
+
+{{else}}
+    <h1>Hello after the masterhead</h1>
+{{/if}}
+
+<footer>Hello, it's the footer!</footer>
+
+</body>
+
+<template name="rows">
+  {{#each rows}}
+      <tr>
+        {{#each columns}}
+            <td>${{this}}</td>
+        {{/each}}
+          <td>{{text}}</td>
+          <td><form class="delete-row"><input type="submit" value="Delete" class="ui negative button"/></form></td>
+      </tr>
+  {{/each}}
+</template>
+
+<template name="cat">
+    <th>{{cat}}</th>
+</template>
+
+<template name="editCat">
+    <tr>
+        <td>{{cat}}</td>
+        <td>{{per}}</td>
+        <td>
+            <form class="delete-cat"><input type="submit" value="Delete" class="ui negative button"/></form>
+        </td>
+    </tr>
+</template>
