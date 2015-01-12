@@ -20,6 +20,8 @@ To get started, install Meteor, clone this repo, then run the included script to
 
 ```git clone https://github.com/asm-products/pigger.git```
 
+```cd pigger```
+
 ```sh install_pigger.sh```
 
 Now simply run ```meteor``` when you're ready to see the future of money tracking for children. 
